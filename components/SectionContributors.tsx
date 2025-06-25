@@ -1,8 +1,7 @@
 // components/SectionContributors.tsx
 
 import React, { useEffect, useState, useCallback } from 'react'
-import ContributorCard from './ContributorCard' // Adjust the import path
-import ContributorCardProps from './ContributorCard' // Import the Contributor interface
+import ContributorCard, { Contributor } from './ContributorCard' // Adjust the import path
 
 function shuffleArray<T>(array: T[]): T[] {
   const shuffled = [...array]
@@ -14,17 +13,17 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 function SectionContributors() {
-  const [contributors, setContributors] = useState<any[]>([])
+  const [contributors, setContributors] = useState<Contributor[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
 
   const fetchContributors = useCallback(async () => {
     try {
-      const response = await fetch('/api/getContributors')
+      const response = await fetch('/api/get-contributors')
       if (!response.ok) {
         throw new Error('Failed to fetch contributors')
       }
-      const data: any[] = await response.json()
+      const data: Contributor[] = await response.json()
       const shuffledContributors = shuffleArray(data) // Shuffle the data
       setContributors(shuffledContributors)
       setLoading(false)

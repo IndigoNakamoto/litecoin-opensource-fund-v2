@@ -5,7 +5,7 @@ import Image from 'next/image'
 import ReactModal from 'react-modal'
 import SocialIcon from './social-icons' // Ensure the correct path
 
-interface Contributor {
+export interface Contributor {
   id: string
   fieldData: {
     name: string
