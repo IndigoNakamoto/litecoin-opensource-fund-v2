@@ -28,24 +28,30 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, bgColor }) => {
     >
       {/* Updated Image Container */}
       <div className="relative aspect-square w-full">
-        <Image
-          // Use the custom loader
-          loader={customImageLoader}
-          // Ensure this is a valid URL from Webflow
-          src={coverImage}
-          alt={title}
-          // Replaces layout="fill"
-          fill
-          className="rounded-sm"
-          priority={true}
-          sizes="(max-width: 768px) 100vw,
-                 (max-width: 1200px) 50vw,
-                 33vw"
-          style={{
-            objectFit: 'cover',
-            objectPosition: '50% 50%',
-          }}
-        />
+        {coverImage ? (
+          <Image
+            // Use the custom loader
+            loader={customImageLoader}
+            // Ensure this is a valid URL from Webflow
+            src={coverImage}
+            alt={title}
+            // Replaces layout="fill"
+            fill
+            className="rounded-sm"
+            priority={true}
+            sizes="(max-width: 768px) 100vw,
+                   (max-width: 1200px) 50vw,
+                   33vw"
+            style={{
+              objectFit: 'cover',
+              objectPosition: '50% 50%',
+            }}
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center rounded-sm bg-gray-200">
+            <span className="text-gray-500">No Image</span>
+          </div>
+        )}
       </div>
       <figcaption className="flex flex-1 flex-col justify-between pt-0 sm:pt-8">
         <div className="h-auto">
@@ -70,7 +76,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, bgColor }) => {
               LOADING &rarr;
             </span>
           ) : (
-            <span className="text-secondary-500 hover:text-secondary-600 text-[14px]">
+            <span className="text-secondary-500 hover:text-secondary-600 text-black text-[14px]">
               READ MORE &rarr;
             </span>
           )}
