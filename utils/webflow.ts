@@ -57,6 +57,11 @@ interface Project {
 }
 
 interface ProjectFieldData {
+  'cover-image'?: {
+    fileId: string
+    url: string
+    alt: string | null
+  }
   'github-link': string
   'telegram-link': string
   'facebook-link': string
@@ -175,11 +180,12 @@ interface ProjectSummaryLiteFieldData {
     fileId: string
     url: string
     alt: string | null
-  }
+  } | null
+  'total-paid'?: number
   status: string // Mapped label
 }
 
-interface ProjectSummaryLite {
+export interface ProjectSummaryLite {
   isDraft: boolean
   id: string
   lastUpdated: string
@@ -605,7 +611,7 @@ let cachedProjectStatusMap: { [key: string]: string } | null = null
  */
 const listCollectionItems = async <T>(
   collectionId: string,
-  params: Record<string, any> = {}
+  params: Record<string, string | number | undefined> = {}
 ): Promise<T[]> => {
   let items: T[] = []
   let offset = 0
@@ -630,10 +636,10 @@ const listCollectionItems = async <T>(
     } while (items.length < total)
 
     return items
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error(
       `Error fetching items from collection ${collectionId}:`,
-      error.response?.data || error.message
+      error instanceof Error ? error.message : 'An unknown error occurred'
     )
     throw error
   }
@@ -770,9 +776,6 @@ export const getMatchingTypeLabelForDonor = async (
     'matching-type'
   )
 
-  // Retrieve the matching type ID from the donor's fieldData
-  const matchingTypeId = donor.fieldData['matching-type']
-
   // Find the corresponding label from the matching type map
   const matchingTypeLabel =
     matchingTypeMap[donor.fieldData['matching-type']] || 'Unknown Matching Type'
@@ -836,14 +839,14 @@ export const getProjectBySlug = async (
 
   // Get contributors for each category
   const litecoinContributors = getContributorsByIds(
-    project.fieldData['litecoin-contributors-2'] || []
+    project.fieldData['litecoin-contributors'] || []
   )
 
   const bitcoinContributors = getContributorsByIds(
-    project.fieldData['bitcoin-contributors-2'] || []
+    project.fieldData['bitcoin-contributors'] || []
   )
 
-  const advocates = getContributorsByIds(project.fieldData['advocates-2'] || [])
+  const advocates = getContributorsByIds(project.fieldData['advocates'] || [])
 
   // Combine data into projectWithContributors
   const projectWithContributors: ProjectWithUpdatesAndContributors = {
@@ -963,7 +966,7 @@ export const getAllProjects = async (): Promise<ProjectSummaryLite[]> => {
           summary: project.fieldData.summary,
           name: project.fieldData.name,
           slug: project.fieldData.slug,
-          'cover-image': project.fieldData['cover-image'],
+          'cover-image': project.fieldData['cover-image'] ?? null,
           'total-paid': project.fieldData['total-paid'],
           status: statusLabel,
         },
