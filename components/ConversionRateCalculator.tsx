@@ -10,17 +10,11 @@ import { faExchange } from '@fortawesome/free-solid-svg-icons'
 interface ConversionRateCalculatorProps {
   selectedCurrencyCode: string | undefined
   selectedCurrencyName: string | undefined
-  onCurrencySelect: (
-    currencyCode: string,
-    amount: number,
-    rateInfo: { rate: number }
-  ) => void
 }
 
 const ConversionRateCalculator: React.FC<ConversionRateCalculatorProps> = ({
   selectedCurrencyCode,
   selectedCurrencyName,
-  onCurrencySelect,
 }) => {
   const { state, dispatch } = useDonation()
   const { usdInput, cryptoInput, currencyList } = state
@@ -71,13 +65,10 @@ const ConversionRateCalculator: React.FC<ConversionRateCalculatorProps> = ({
                   assetName: selectedCurrencyName || '',
                 },
               })
-              onCurrencySelect(
-                selectedCurrencyCode || '',
-                parseFloat(newCryptoValue),
-                {
-                  rate,
-                }
-              )
+              dispatch({
+                type: 'SET_RATES',
+                payload: { rate },
+              })
             }
           } else if (cryptoInput) {
             const numericCrypto = parseFloat(cryptoInput)
@@ -92,8 +83,9 @@ const ConversionRateCalculator: React.FC<ConversionRateCalculatorProps> = ({
                   assetName: selectedCurrencyName || '',
                 },
               })
-              onCurrencySelect(selectedCurrencyCode!, numericCrypto, {
-                rate,
+              dispatch({
+                type: 'SET_RATES',
+                payload: { rate },
               })
             }
           }

@@ -122,6 +122,14 @@ type Action =
   | { type: 'SET_SELECTED_CURRENCY'; payload: { code: string; name: string } }
   | { type: 'SET_USD_INPUT'; payload: string }
   | { type: 'SET_CRYPTO_INPUT'; payload: string }
+  | {
+      type: 'UPDATE_FORM_DATA'
+      payload: {
+        selectedCurrencyCode: string
+        selectedCurrencyName: string
+        formData: Partial<FormData>
+      }
+    }
 
 const initialState: DonationState = {
   selectedOption: 'crypto',
@@ -213,6 +221,13 @@ const donationReducer = (
       }
     case 'SET_FORM_DATA':
       return { ...state, formData: { ...state.formData, ...action.payload } }
+    case 'UPDATE_FORM_DATA':
+      return {
+        ...state,
+        selectedCurrencyCode: action.payload.selectedCurrencyCode,
+        selectedCurrencyName: action.payload.selectedCurrencyName,
+        formData: { ...state.formData, ...action.payload.formData },
+      }
     case 'SET_PROJECT_DETAILS':
       return {
         ...state,
@@ -295,11 +310,14 @@ export const DonationProvider: React.FC<DonationProviderProps> = ({
       } else {
         throw new Error('Invalid currency list data')
       }
-    } catch (err: any) {
-      console.error(
-        'Error fetching currencies:',
-        err.response?.data || err.message
-      )
+    } catch (err: unknown) {
+      let message = 'An unknown error occurred.'
+      if (axios.isAxiosError(err) && err.response) {
+        message = err.response.data
+      } else if (err instanceof Error) {
+        message = err.message
+      }
+      console.error('Error fetching currencies:', message)
     }
   }, [dispatch])
 

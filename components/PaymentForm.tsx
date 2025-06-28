@@ -6,6 +6,7 @@ import GradientButton from './GradientButton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCreditCard, faArrowTrendUp } from '@fortawesome/free-solid-svg-icons'
 import { SiLitecoin } from 'react-icons/si'
+import { FaHandHoldingHeart } from 'react-icons/fa'
 
 import PaymentModalCryptoDonate from './PaymentModalCryptoDonate'
 import PaymentModalCryptoOption from './PaymentModalCryptoOption'
@@ -74,10 +75,14 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
               document.body.appendChild(newScript)
             }
           }
-        } catch (error: any) {
+        } catch (error: unknown) {
           // Added type annotation for error
+          let message = 'An unknown error occurred.'
+          if (error instanceof Error) {
+            message = error.message
+          }
           console.error('Failed to fetch widget snippet:', error)
-          setWidgetError(error.message)
+          setWidgetError(message)
         }
       }
 
@@ -97,7 +102,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
           payload: {
             slug: project.slug,
             title: project.title,
-            image: project.coverImage,
+            image: project.coverImage || '',
           },
         })
       }
@@ -117,26 +122,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
   const renderPaymentOption = () => {
     switch (state.selectedOption) {
       case 'crypto':
-        return (
-          <PaymentModalCryptoOption
-            onCurrencySelect={(currency, value, rates) => {
-              dispatch({ type: 'SET_CURRENCY', payload: currency })
-              dispatch({
-                type: 'SET_PLEDGED_AMOUNT',
-                payload: value.toString(),
-              })
-              dispatch({ type: 'SET_RATES', payload: rates })
-              dispatch({
-                type: 'SET_FORM_DATA',
-                payload: {
-                  assetSymbol: currency,
-                  pledgeCurrency: currency,
-                  pledgeAmount: value.toString(),
-                },
-              })
-            }}
-          />
-        )
+        return <PaymentModalCryptoOption />
       case 'fiat':
         return <PaymentModalFiatOption />
       case 'stock':
@@ -180,7 +166,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
                   <Image
                     loader={customImageLoader}
                     alt={project.title}
-                    src={project.coverImage}
+                    src={project.coverImage || ''}
                     width={96}
                     height={96}
                     priority={true}
@@ -215,11 +201,11 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
                           dispatch({ type: 'SET_OPTION', payload: 'crypto' })
                         }
                         icon={<SiLitecoin className="h-6 w-6" />} // Adding the icon
-                        variant={`${
+                        variant={
                           state.selectedOption === 'crypto'
                             ? 'primary'
                             : 'secondary'
-                        }`}
+                        }
                         className={`block h-12 w-full`}
                       >
                         CRYPTO
@@ -264,11 +250,10 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
                   {/* Second Row: widgetSnippet and Stock Button */}
                   <div className="flex justify-between space-x-3">
                     <div className="w-1/2">
-                      <div className="flex w-full flex-row items-center justify-center gap-2 rounded-3xl border border-[#222222] text-xl font-bold">
-                        {/* <FaHandHoldingHeart /> */}
+                      <div className="flex h-full w-full flex-row items-center justify-center gap-2 rounded-3xl border border-[#222222] text-xl font-bold">
+                        <FaHandHoldingHeart />
                         <div
                           dangerouslySetInnerHTML={{ __html: widgetSnippet }}
-                          className="h-full w-full"
                         />
                       </div>
                     </div>
@@ -325,11 +310,11 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
                           dispatch({ type: 'SET_OPTION', payload: 'crypto' })
                         }
                         icon={<SiLitecoin className="h-6 w-6" />} // Adding the icon
-                        variant={`${
+                        variant={
                           state.selectedOption === 'crypto'
                             ? 'primary'
                             : 'secondary'
-                        }`}
+                        }
                         className={`block w-full`}
                       >
                         {'CRYPTO'}

@@ -23,7 +23,7 @@ const excludedCoins = ['XRP']
 
 const PaymentModalCryptoOption: React.FC = () => {
   const { state, dispatch } = useDonation()
-  const { currencyList, selectedCurrencyName } = state
+  const { currencyList, selectedCurrencyName, selectedCurrencyCode } = state
 
   const [searchTerm, setSearchTerm] = useState('')
   const [showDropdown, setShowDropdown] = useState(false)
@@ -170,7 +170,10 @@ const PaymentModalCryptoOption: React.FC = () => {
         )}
       </div>
 
-      <ConversionRateCalculator />
+      <ConversionRateCalculator
+        selectedCurrencyCode={selectedCurrencyCode || undefined}
+        selectedCurrencyName={selectedCurrencyName || undefined}
+      />
     </div>
   )
 }
