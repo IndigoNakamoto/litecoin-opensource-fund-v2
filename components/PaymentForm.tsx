@@ -122,7 +122,21 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
   const renderPaymentOption = () => {
     switch (state.selectedOption) {
       case 'crypto':
-        return <PaymentModalCryptoOption />
+        return (
+          <PaymentModalCryptoOption
+            onCurrencySelect={(currencyCode, amount, rateInfo) => {
+              dispatch({
+                type: 'SET_FORM_DATA',
+                payload: {
+                  pledgeAmount: amount.toString(),
+                  pledgeCurrency: currencyCode,
+                },
+              })
+              dispatch({ type: 'SET_RATES', payload: rateInfo })
+              dispatch({ type: 'SET_DONATE_BUTTON_DISABLED', payload: false })
+            }}
+          />
+        )
       case 'fiat':
         return <PaymentModalFiatOption />
       case 'stock':
@@ -135,7 +149,14 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
   const renderContent = () => {
     switch (state.currentStep) {
       case 'personalInfo':
-        return <PaymentModalPersonalInfo onRequestClose={handleRequestClose} />
+        return (
+          <PaymentModalPersonalInfo
+            onRequestClose={handleRequestClose}
+            onContinue={() =>
+              dispatch({ type: 'SET_STEP', payload: 'cryptoDonate' })
+            }
+          />
+        )
       case 'cryptoDonate':
         return <PaymentModalCryptoDonate onRequestClose={handleRequestClose} />
       case 'fiatDonate':

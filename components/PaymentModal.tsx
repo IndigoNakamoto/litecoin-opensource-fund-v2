@@ -29,7 +29,7 @@ const PaymentModal: React.FC<ModalProps> = ({
         payload: {
           slug: project.slug,
           title: project.title,
-          image: project.coverImage,
+          image: project.coverImage || '',
         },
       })
     }

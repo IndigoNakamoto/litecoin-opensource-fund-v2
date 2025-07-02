@@ -1,9 +1,7 @@
 // components/PaymentModalPersonalInfo.tsx
 
 import React, { useState, useEffect } from 'react'
-import { SiX } from 'react-icons/si'
 import { useDonation } from '../contexts/DonationContext'
-import Image from 'next/image'
 import { countries } from './countries'
 import { useSession } from 'next-auth/react'
 import GradientButton from './GradientButton'
@@ -11,11 +9,12 @@ import Button from './Button'
 
 type PaymentModalPersonalInfoProps = {
   onRequestClose: () => void
+  onContinue: () => void
 }
 
-const PaymentModalPersonalInfo: React.FC<
-  PaymentModalPersonalInfoProps
-> = () => {
+const PaymentModalPersonalInfo: React.FC<PaymentModalPersonalInfoProps> = ({
+  onContinue,
+}) => {
   const { state, dispatch } = useDonation()
   const { formData, projectSlug } = state
   const [isLoading, setIsLoading] = useState(false)
@@ -44,10 +43,34 @@ const PaymentModalPersonalInfo: React.FC<
     lastName?: string
     country?: string
     addressLine1?: string
+    addressLine2?: string
     city?: string
     state?: string
     zipcode?: string
     phoneNumber?: string
+    joinMailingList?: string
+    assetName?: string
+    assetSymbol?: string
+    pledgeAmount?: string
+    pledgeCurrency?: string
+    isAnonymous?: string
+    taxReceipt?: string
+    pledgeId?: string
+    cardToken?: string
+    donationUuid?: string
+    brokerName?: string
+    brokerLabelName?: string
+    brokerageAccountNumber?: string
+    brokerContactName?: string
+    brokerEmail?: string
+    brokerPhone?: string
+    signatureDate?: string
+    signatureImage?: string
+    socialXUseSession?: string
+    socialX?: string
+    socialXimageSrc?: string
+    socialFacebook?: string
+    socialLinkedIn?: string
   }>({})
 
   const { data: session } = useSession()
@@ -339,7 +362,7 @@ const PaymentModalPersonalInfo: React.FC<
       apiBody = {
         projectSlug: projectSlug,
         organizationId: 1189134331,
-        pledgeCurrency: formData.assetSymbol,
+        pledgeCurrency: formData.pledgeCurrency,
         pledgeAmount: formData.pledgeAmount,
         receiptEmail: donateAnonymously
           ? anonInfo.receiptEmail
@@ -419,7 +442,7 @@ const PaymentModalPersonalInfo: React.FC<
               ...state.formData,
             },
           })
-          dispatch({ type: 'SET_STEP', payload: 'cryptoDonate' })
+          onContinue()
         } else if (selectedOption === 'stock' && data?.donationUuid) {
           dispatch({
             type: 'SET_DONATION_DATA',
@@ -438,7 +461,7 @@ const PaymentModalPersonalInfo: React.FC<
       } else {
         console.error(data.error)
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error submitting pledge:', error)
     } finally {
       setIsLoading(false)
@@ -496,73 +519,6 @@ const PaymentModalPersonalInfo: React.FC<
             </div>
           </>
         )}
-        <span className="block w-full border-t border-gray-400"></span>
-
-        <div className="pb-2">
-          <h2 className="text-lg text-[#000]">
-            Profile Photo <span className="text-sm">(Optional)</span>
-          </h2>
-
-          <div className="flex flex-col">
-            <div className="flex flex-row">
-              <div className="relative my-2 h-[64px] min-w-[64px] rounded-full bg-blue-400">
-                {!state.formData.socialXimageSrc ? (
-                  <Image
-                    src="/static/images/design/chickun.jpeg"
-                    alt="profile"
-                    width="120"
-                    height="120"
-                    className="rounded-full"
-                    style={{
-                      maxWidth: '100%',
-                      height: 'auto',
-                    }}
-                  />
-                ) : (
-                  <Image
-                    src={state.formData.socialXimageSrc}
-                    alt="profile"
-                    width="120"
-                    height="120"
-                    className="rounded-full"
-                    style={{
-                      maxWidth: '100%',
-                      height: 'auto',
-                    }}
-                  />
-                )}
-              </div>
-              <p className="my-auto ml-8 text-[14px] text-black">
-                Verify an account to show your support. Your photo and a link to
-                your account will be featured in our community section.
-              </p>
-            </div>
-            <div>
-              <div className="flex flex-col">
-                <button
-                  type="button"
-                  className="flex w-1/2 cursor-not-allowed items-center justify-center rounded-lg border border-gray-300 bg-gray-200 text-gray-500"
-                  disabled
-                >
-                  <span className="flex items-center">
-                    Verify
-                    <SiX className="ml-2 h-6 w-6" />
-                  </span>
-                </button>
-                <p className="mt-2 text-[14px] text-black">
-                  Feature available soon. Please email
-                  <a
-                    href="mailto:donate@litecoin.com"
-                    className="ml-1 text-blue-500 underline"
-                  >
-                    donate@litecoin.com
-                  </a>
-                  &nbsp;to request your X profile to be added.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <span className="block w-full border-t border-gray-400 "></span>
 

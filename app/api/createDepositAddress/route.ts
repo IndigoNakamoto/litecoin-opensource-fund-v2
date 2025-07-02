@@ -36,14 +36,8 @@ export async function POST(request: Request) {
 
   // Validate always required fields
   const missingFields: string[] = []
-  if (organizationId === undefined || organizationId === null)
+  if (organizationId === undefined || organizationId === null) {
     missingFields.push('organizationId')
-  const parsedOrganizationId = parseInt(organizationId, 10)
-  if (isNaN(parsedOrganizationId)) {
-    return NextResponse.json(
-      { error: 'Invalid organizationId. Must be an integer.' },
-      { status: 400 }
-    )
   }
   if (!pledgeCurrency) missingFields.push('pledgeCurrency')
   if (!pledgeAmount) missingFields.push('pledgeAmount')
@@ -79,6 +73,14 @@ export async function POST(request: Request) {
       )
     }
 
+    const parsedOrganizationId = parseInt(organizationId, 10)
+    if (isNaN(parsedOrganizationId)) {
+      return NextResponse.json(
+        { error: 'Invalid organizationId. Must be an integer.' },
+        { status: 400 }
+      )
+    }
+
     // Create a new Donation record without pledgeId initially
     const donation = await prisma.donation.create({
       data: {
@@ -106,7 +108,7 @@ export async function POST(request: Request) {
 
     // Prepare the payload for The Giving Block's CreateDepositAddress API
     const apiPayload: {
-      organizationId: number
+      organizationId: string
       isAnonymous: boolean
       pledgeCurrency: string
       pledgeAmount: string
@@ -120,7 +122,7 @@ export async function POST(request: Request) {
       city?: string
       zipcode?: string
     } = {
-      organizationId: parsedOrganizationId,
+      organizationId: organizationId.toString(),
       isAnonymous: isAnonymous,
       pledgeCurrency: pledgeCurrency,
       pledgeAmount: parsedPledgeAmount.toString(), // Convert to string
