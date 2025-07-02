@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .markdown h1 {
+    @apply mb-4 mt-8 font-space-grotesk text-[39px] font-semibold;
+  }
+  .markdown h2 {
+    @apply mb-3 mt-6 font-space-grotesk text-[30px] font-semibold;
+  }
+  .markdown h3,
+  h5 {
+    @apply mb-2 mt-5 font-space-grotesk text-[20px] font-semibold;
+  }
+  .markdown p {
+    @apply mb-4 text-[16px] font-normal text-black;
+  }
+  .markdown a {
+    @apply text-blue-500 hover:underline dark:text-blue-400;
+  }
+  .markdown blockquote {
+    @apply my-4 border-l-4 border-gray-300 pl-4 italic;
+  }
+  .markdown ul {
+    @apply mb-4 list-inside list-disc pl-4;
+  }
+  .markdown ul ul {
+    @apply list-disc pl-8;
+  }
+  .markdown ul ul ul {
+    @apply list-disc pl-12;
+  }
+  .markdown ol {
+    @apply mb-4 list-inside list-decimal pl-4;
+  }
+  .markdown ol ol {
+    @apply list-decimal pl-8;
+  }
+  .markdown ol ol ol {
+    @apply list-decimal pl-12;
+  }
+  .markdown li {
+    @apply mb-2;
+  }
+  .markdown pre {
+    @apply mb-4 rounded bg-gray-100 p-4;
+  }
+  .markdown code {
+    @apply rounded bg-gray-200 p-1 text-sm;
+  }
+  .markdown button {
+    @apply text-black;
+  }
+
+  .apply h1 {
+    @apply mb-4 mt-8 text-4xl font-semibold;
+  }
+  .apply h2 {
+    @apply mb-3 mt-6 text-3xl font-semibold;
+  }
+  .apply h3,
+  h5 {
+    @apply mb-2 mt-5 text-2xl font-semibold;
+  }
+  .apply p {
+    @apply mb-4 text-lg font-normal;
+  }
+  .apply a {
+    @apply text-white;
+  }
+  .apply blockquote {
+    @apply my-4 border-l-4 border-gray-300 pl-4 italic;
+  }
+  .apply ul {
+    @apply mb-4 list-inside list-disc;
+  }
+  .apply ol {
+    @apply mb-4 list-inside list-decimal;
+  }
+  .apply pre {
+    @apply mb-4 rounded bg-gray-100 p-4;
+  }
+  .apply code {
+    @apply rounded bg-gray-200 p-1 text-sm;
+  }
+  .apply button {
+    @apply text-black;
+  }
+}
+
+.task-list-item::before {
+  @apply hidden;
+}
+
+.task-list-item {
+  @apply list-none;
+}
+
+.footnotes {
+  @apply mt-12 border-t border-gray-200 pt-8 dark:border-gray-700;
+}
+
+.data-footnote-backref {
+  @apply no-underline;
+}
+
+.csl-entry {
+  @apply my-5;
+}
+
+/* https://stackoverflow.com/questions/61083813/how-to-avoid-internal-autofill-selected-style-to-be-applied */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+@layer base {
+  h1 {
+    @apply text-3xl;
+  }
+  h2 {
+    @apply text-2xl;
+  }
+  h3 {
+    @apply text-xl;
+  }
+}
+
+button.small {
+  @apply border border-black bg-white p-1 text-sm text-black;
+}
+
+button.group {
+  @apply border border-black bg-white p-2 text-sm text-black;
+}
+
+button,
+button[type='submit'] {
+  @apply rounded px-4 py-2 text-white;
+}
+
+button.secondary {
+  @apply border bg-white text-black;
+}
+
+.prose > ul > li > p {
+  margin-top: 0;
+  margin-bottom: 0;
+}

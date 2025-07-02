@@ -1,9 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faChevronLeft,
-  faChevronRight,
-} from '@fortawesome/free-solid-svg-icons'
+import { useState, useRef } from 'react'
 
 type ProjectMenuProps = {
   onMenuItemChange: (menuItem: string) => void
@@ -21,38 +16,7 @@ const ProjectMenu: React.FC<ProjectMenuProps> = ({
   updatesCount,
 }) => {
   const [activeItem, setActiveItem] = useState(activeMenu)
-  const [showLeftChevron, setShowLeftChevron] = useState(false)
-  const [showRightChevron, setShowRightChevron] = useState(true) // Assuming there's overflow initially
   const menuRef = useRef<HTMLUListElement>(null)
-
-  useEffect(() => {
-    const menuElement = menuRef.current
-
-    const checkForOverflow = () => {
-      if (menuElement) {
-        const { scrollWidth, clientWidth, scrollLeft } = menuElement
-        setShowLeftChevron(scrollLeft > 0)
-        setShowRightChevron(scrollLeft < scrollWidth - clientWidth)
-      }
-    }
-
-    // Initial check
-    checkForOverflow()
-
-    // Add event listener
-    menuElement?.addEventListener('scroll', checkForOverflow)
-
-    // Cleanup
-    return () => menuElement?.removeEventListener('scroll', checkForOverflow)
-  }, [])
-
-  const scrollMenu = (direction: 'left' | 'right') => {
-    if (menuRef.current) {
-      const { clientWidth } = menuRef.current
-      const scrollAmount = direction === 'left' ? -clientWidth : clientWidth
-      menuRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
-    }
-  }
 
   const handleMenuItemClick = (menuItem: string) => {
     setActiveItem(menuItem)

@@ -30,9 +30,9 @@ This document outlines the components and APIs that need to be migrated from the
 ## Hooks & Contexts
 - [X] `contexts/DonationContext.tsx`
 - [X] `next-auth/react` (ensure `useSession` is correctly configured)
-  - [ ] **1. Migrate NextAuth.js API Route**:
-    - [ ] Move the NextAuth configuration from `pages/api/auth/[...nextauth].ts` to `app/api/auth/[...nextauth]/route.ts`.
-    - [ ] Update the `route.ts` file to export named `GET` and `POST` handlers, as required by the App Router.
+  - [X] **1. Migrate NextAuth.js API Route**:
+    - [X] Move the NextAuth configuration from `pages/api/auth/[...nextauth].ts` to `app/api/auth/[...nextauth]/route.ts`.
+    - [X] Update the `route.ts` file to export named `GET` and `POST` handlers, as required by the App Router.
     - [ ] Verify the `jwt` and `session` callbacks are correctly implemented to pass the `username` from the Twitter profile to the client-side session object.
   - [ ] **2. Configure Session Provider for App Router**:
     - [ ] Ensure the `<SessionProvider>` is implemented within a dedicated Client Component (e.g., `app/providers.tsx`).
@@ -49,11 +49,11 @@ This document outlines the components and APIs that need to be migrated from the
 - [X] `/api/getTickerCost`
 - [X] `/api/createFiatDonationPledge`
 - [X] `/api/createDepositAddress`
-- [ ] `/api/createStockDonationPledge`
-- [ ] `/api/chargeFiatDonationPledge`
-- [ ] `/api/getBrokersList`
-- [ ] `/api/submitStockDonation`
-- [ ] `/api/signStockDonation`
+- [X] `/api/createStockDonationPledge`
+- [~] `/api/chargeFiatDonationPledge`
+- [X] `/api/getBrokersList`
+- [~] `/api/submitStockDonation`
+- [~] `/api/signStockDonation`
 
 ## External Dependencies
 - [ ] Shift4.js

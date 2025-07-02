@@ -1,20 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import LayoutWrapper from "@/components/LayoutWrapper";
 
-const geistSans = Geist({
-    variable: "--font-geist-sans",
-    subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
-    subsets: ["latin"],
-});
+import "../globals.css";
 
 export const metadata: Metadata = {
-    title: "Litecoin Knowledge Hub",
-    description: "Litecoin Knowledge Hub",
+    title: "Litecoin Projects",
+    description: "Litecoin Open-Source Projects",
 };
 
 export default function RootLayout({
@@ -25,7 +16,7 @@ export default function RootLayout({
     return (
         <div lang="en">
             <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+                className={`antialiased`}
             >
                 <LayoutWrapper>
                     {children}

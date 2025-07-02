@@ -1,6 +1,5 @@
 // @ts-check
 
-/** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
   title: 'Litecoin',
   author: 'Litecoin Foundation Inc.',
