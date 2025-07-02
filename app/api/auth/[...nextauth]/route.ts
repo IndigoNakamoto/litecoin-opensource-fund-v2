@@ -22,17 +22,11 @@ interface CustomProfile {
   }
 }
 
-export const {
-  handlers,
-  auth,
-  signIn,
-  signOut,
-} = NextAuth({
+const { handlers } = NextAuth({
   providers: [
     TwitterProvider({
       clientId: process.env.TWITTER_CLIENT_ID as string,
       clientSecret: process.env.TWITTER_CLIENT_SECRET as string,
-      version: '2.0', // opt-in to Twitter OAuth 2.0
       profile(profile) {
         const { id, name, username, profile_image_url: image } = profile.data
         return {
@@ -48,7 +42,7 @@ export const {
     jwt: async ({ token, profile }) => {
       try {
         if (profile) {
-          const customProfile = profile as CustomProfile // Cast to CustomProfile
+          const customProfile = profile as unknown as CustomProfile // Cast to CustomProfile
           token.username = customProfile.data.username
         }
         return token
@@ -70,3 +64,5 @@ export const {
   },
   secret: process.env.NEXTAUTH_SECRET,
 })
+
+export const { GET, POST } = handlers
