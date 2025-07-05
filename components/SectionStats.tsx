@@ -54,9 +54,9 @@ function SectionStats() {
     <div className="mx-auto max-w-5xl text-center text-black">
       <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
         <div className="flex flex-col items-center">
-          <div className="font-space-grotesk text-3xl font-semibold md:text-3xl lg:text-4xl">
+          <h1 className="font-space-grotesk text-4xl font-semibold md:text-3xl lg:text-4xl">
             {stats.projectsSupported}
-          </div>
+          </h1>
           <p className="text-[13px] uppercase">Projects Supported</p>
         </div>
         <div className="flex flex-col items-center">

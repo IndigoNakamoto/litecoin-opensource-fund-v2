@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import Providers from "./providers";
+import localFont from "next/font/local";
 
 import "./globals.css";
 
+const spaceGrotesk = localFont({
+  src: "../fonts/SpaceGrotesk-VariableFont_wght.ttf",
+  variable: "--font-space-grotesk",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`antialiased`}
+        className={`${spaceGrotesk.variable} font-sans antialiased`}
       >
         <Providers>{children}</Providers>
       </body>

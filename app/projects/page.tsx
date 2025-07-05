@@ -291,8 +291,6 @@ const AllProjects: NextPage = () => {
         className="relative flex max-h-fit min-h-[62vh] w-full items-center overflow-x-hidden bg-cover bg-center lg:py-24"
         style={{
           backgroundImage: "url('/static/Mask-Group-20.webp')",
-          fontFamily:
-            'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
         }}
       >
         <div className="w-full items-center">

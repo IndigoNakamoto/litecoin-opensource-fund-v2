@@ -1,17 +1,11 @@
+@import "tailwindcss/preflight";
+@tailwind utilities;
+
 @import "tailwindcss";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@font-face {
-  font-family: 'Space Grotesk';
-  src: url('/fonts/Space_Grotesk/SpaceGrotesk-VariableFont_wght.ttf')
-    format('truetype-variations');
-  font-weight: 100 900; /* Define the range of weights available */
-  font-style: normal;
-  font-display: swap; /* Ensures fonts are loaded quickly */
 }
 
 @font-face {
@@ -27,8 +21,25 @@
   --font-barlow-semi-condensed: 'BarlowSemiCondensed', sans-serif;
 }
 
-body {
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/Space_Grotesk/SpaceGrotesk-VariableFont_wght.ttf')
+    format('truetype-variations');
+  font-weight: 100 900; /* Define the range of weights available */
+  font-style: normal;
+  font-display: swap; /* Ensures fonts are loaded quickly */
+}
+
+h1,h2,h3,h4,h5,h6 {
   font-family: var(--font-space-grotesk);
+}
+
+h2 {
+  @apply text-[32px] font-semibold text-black;
+}
+
+h3 {
+  @apply text-[20px] font-semibold text-black;
 }
 
 button.small {
@@ -137,13 +148,6 @@ input[type='number'] {
   overflow-x: hidden;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -154,4 +158,54 @@ input[type='number'] {
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+.markdown h1 {
+  @apply mb-4 mt-8 text-[39px] font-semibold;
+}
+.markdown h2 {
+  @apply mb-3 mt-6 text-[30px] font-semibold;
+}
+.markdown h3,
+h5 {
+  @apply mb-2 mt-5 text-[20px] font-semibold;
+}
+.markdown p {
+  @apply mb-4 text-[16px] font-normal text-black;
+}
+.markdown a {
+  @apply text-blue-500 hover:underline;
+}
+.markdown blockquote {
+  @apply my-4 border-l-4 border-gray-300 pl-4 italic;
+}
+.markdown ul {
+  @apply mb-4 list-inside list-disc pl-4;
+}
+.markdown ul ul {
+  @apply list-disc pl-8;
+}
+.markdown ul ul ul {
+  @apply list-disc pl-12;
+}
+.markdown ol {
+  @apply mb-4 list-inside list-decimal pl-4;
+}
+.markdown ol ol {
+  @apply list-decimal pl-8;
+}
+.markdown ol ol ol {
+  @apply list-decimal pl-12;
+}
+.markdown li {
+  @apply mb-2;
+}
+.markdown pre {
+  @apply mb-4 rounded bg-gray-100 p-4;
+}
+.markdown code {
+  @apply rounded bg-gray-200 p-1 text-sm;
+}
+.markdown button {
+  @apply text-black;
 }
